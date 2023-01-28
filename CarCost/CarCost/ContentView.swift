@@ -29,7 +29,7 @@ struct ContentView: View {
                     
                     List {
                         ForEach(car.allExpenses) { item in
-                            Text("$\()")
+                            Text("$\(item.cost)")
                         }
                     }
                     Spacer()
