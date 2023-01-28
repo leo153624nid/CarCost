@@ -25,15 +25,17 @@ struct ContentView: View {
                     Text(selectedSection)
                     
                     List {
-                        ForEach(car.fuelExpenses) { item in
-                            HStack {
-                                VStack(alignment: .leading) {
-                                    Text("\(item.description)")
-                                    Text("\(item.mileage) km")
-                                }
-                                Spacer()
-                                Text("$\(item.cost)")
-                            }
+                        switch selectedSection {
+                            case "All":
+                                ExpensePosts(dataArr: car.allExpenses )
+                            case "Fuel":
+                                ExpensePosts(dataArr: car.fuelExpenses)
+                            case "Service":
+                                ExpensePosts(dataArr: car.serviceExpenses)
+                            case "Other":
+                                ExpensePosts(dataArr: car.otherExpenses )
+                            default:
+                                ExpensePosts(dataArr: car.allExpenses )
                         }
                     }
                     Spacer()
@@ -42,6 +44,26 @@ struct ContentView: View {
                 
             }
             
+    }
+}
+
+struct ExpensePosts: View {
+    var dataArr: [EI]
+//    var arr = dataArr as? [ExpenseItem]
+    
+    var body: some View {
+        if let arr = self.dataArr as? [ExpenseItem] {
+             ForEach(arr) { item in
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text("\(item.description)")
+                        Text("\(item.mileage) km")
+                    }
+                    Spacer()
+                    Text("$\(item.cost)")
+                }
+            }
+        }
     }
 }
 
@@ -118,10 +140,15 @@ class Car: ObservableObject {
     @Published var averageFuel: Double
     @Published var averageCost: Double
     
-    @Published var allExpenses = [ExpenseItem]()
-    @Published var fuelExpenses = [FuelExpenseItem]()
-    @Published var serviceExpenses = [ServiceExpenseItem]()
-    @Published var otherExpenses = [ExpenseItem]()
+//    @Published var allExpenses = [ExpenseItem]()
+//    @Published var fuelExpenses = [FuelExpenseItem]()
+//    @Published var serviceExpenses = [ServiceExpenseItem]()
+//    @Published var otherExpenses = [ExpenseItem]()
+    
+    @Published var allExpenses = [EI]()
+    @Published var fuelExpenses = [FEI]()
+    @Published var serviceExpenses = [SEI]()
+    @Published var otherExpenses = [EI]()
     
     init(name: String, mileage: Int, averageFuel: Double, averageCost: Double) {
         self.name = name
@@ -129,15 +156,22 @@ class Car: ObservableObject {
         self.averageFuel = averageFuel
         self.averageCost = averageCost
         
-        self.allExpenses = [ExpenseItem(description: "EI", mileage: 100, cost: 1000, date: Date())]
-        self.fuelExpenses = [
+        self.allExpenses = [
             FuelExpenseItem(description: "-", mileage: 10000, cost: 3000, date: Date(), price: 52.94, volume: 60, type: .ai95, fullTank: true),
-            FuelExpenseItem(description: "-", mileage: 10500, cost: 3000, date: Date(), price: 52.94, volume: 60, type: .ai95, fullTank: true)
+            FuelExpenseItem(description: "-", mileage: 10500, cost: 3000, date: Date(), price: 52.94, volume: 60, type: .ai95, fullTank: true),
+            ExpenseItem(description: "washing", mileage: 10600, cost: 300, date: Date())
         ]
-        self.serviceExpenses = [ServiceExpenseItem(serviceName: "self", description: "something", mileage: 102, cost: 100, date: Date())]
-        self.otherExpenses = self.allExpenses
+        self.fuelExpenses = [
+            
+        ]
+        self.serviceExpenses = [
+        
+        ]
+        self.otherExpenses = []
     }
 }
+
+
 
 
 
