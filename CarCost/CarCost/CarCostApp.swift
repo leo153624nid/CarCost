@@ -11,7 +11,7 @@ import SwiftUI
 struct CarCostApp: App {
     var body: some Scene {
         WindowGroup {
-            MainView()
+            ContentView()
         }
     }
 }
