@@ -8,9 +8,12 @@
 import SwiftUI
 
 struct ContentView: View {
+    let carTestData = EI(description: "-", mileage: 100, cost: 1000, date: Date())
+    let car = Car(name: "X3", mileage: 100, averageFuel: 10, averageCost: 1000)
+    
     var body: some View {
         car.allExpenses.append(carTestData)
-        return Text("\(car.allExpenses[0].date)")
+        return Text("\(car.allExpenses.count)")
             .padding()
     }
 }
@@ -59,7 +62,7 @@ struct EI: ExpenseItem {
     var date: Date
 }
 
-let carTestData = EI(description: "-", mileage: 100, cost: 1000, date: Date())
+
 
 class Car {
     var name: String
@@ -80,6 +83,6 @@ class Car {
     }
 }
 
-let car = Car(name: "X3", mileage: 100, averageFuel: 10, averageCost: 1000)
+
 
 
