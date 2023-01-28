@@ -34,6 +34,10 @@ protocol FuelExpenseItem: ExpenseItem {
     var fullTank: Bool { get set }
 }
 
+protocol ServiceExpenseItem: ExpenseItem {
+    var serviceName: String { get set }
+}
+
 enum Petrol: String {
     case ai92 = "АИ-92"
     case ai95 = "АИ-95"
@@ -47,11 +51,29 @@ enum FuelType: String {
     case Gas = "Газ"
 }
 
+struct EI: ExpenseItem {
+    var description: String
+    
+    var mileage: Int
+    
+    var cost: Double
+    
+    var date: Date
+    
+}
+
+let carTestData = EI(description: "-", mileage: 100, cost: 1000, date: Date())
+
 class Car {
     var name: String
     var mileage: Int
     var averageFuel: Double
     var averageCost: Double
+    
+    var allExpenses = [ExpenseItem]()
+    var fuelExpenses = [FuelExpenseItem]()
+    var serviceExpenses = [ServiceExpenseItem]()
+    var otherExpenses = [ExpenseItem]()
     
     init(name: String, mileage: Int, averageFuel: Double, averageCost: Double) {
         self.name = name
