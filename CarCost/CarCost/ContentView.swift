@@ -25,8 +25,15 @@ struct ContentView: View {
                     Text(selectedSection)
                     
                     List {
-                        ForEach(car.allExpenses) { item in
-                            Text("$\(item.cost)")
+                        ForEach(car.fuelExpenses) { item in
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text("\(item.description)")
+                                    Text("\(item.mileage) km")
+                                }
+                                Spacer()
+                                Text("$\(item.cost)")
+                            }
                         }
                     }
                     Spacer()
@@ -123,7 +130,10 @@ class Car: ObservableObject {
         self.averageCost = averageCost
         
         self.allExpenses = [ExpenseItem(description: "EI", mileage: 100, cost: 1000, date: Date())]
-        self.fuelExpenses = [FuelExpenseItem(description: "-", mileage: 101, cost: 3000, date: Date(), price: 52.94, volume: 60, type: .ai95, fullTank: true)]
+        self.fuelExpenses = [
+            FuelExpenseItem(description: "-", mileage: 10000, cost: 3000, date: Date(), price: 52.94, volume: 60, type: .ai95, fullTank: true),
+            FuelExpenseItem(description: "-", mileage: 10500, cost: 3000, date: Date(), price: 52.94, volume: 60, type: .ai95, fullTank: true)
+        ]
         self.serviceExpenses = [ServiceExpenseItem(serviceName: "self", description: "something", mileage: 102, cost: 100, date: Date())]
         self.otherExpenses = self.allExpenses
     }
