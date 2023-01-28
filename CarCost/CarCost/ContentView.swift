@@ -8,13 +8,28 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var selectedSection = "Fuel"
+    let sections = ["All", "Fuel", "Service", "Other"]
     let carTestData = EI(description: "-", mileage: 100, cost: 1000, date: Date())
     let car = Car(name: "X3", mileage: 100, averageFuel: 10, averageCost: 1000)
     
     var body: some View {
         car.allExpenses.append(carTestData)
-        return Text("\(car.allExpenses.count)")
-            .padding()
+        return
+            NavigationView {
+                VStack {
+                    Text("\(car.name)")
+                    Picker("", selection: $selectedSection, content: {
+                        ForEach(self.sections, id: \.self, content: {
+                            Text($0)
+                        })
+                    })
+                    .pickerStyle(SegmentedPickerStyle())
+                    Text(selectedSection)
+                }
+                
+            }
+            
     }
 }
 
