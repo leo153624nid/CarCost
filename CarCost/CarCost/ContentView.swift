@@ -49,7 +49,7 @@ struct ExpensePosts: View {
     var dataArr: [EI]
     
     var body: some View {
-        ForEach(dataArr, id: \.self) { item in
+        ForEach(dataArr, id: \.id) { item in
             HStack {
                 VStack(alignment: .leading) {
                     Text("\(item.description)")
@@ -135,15 +135,15 @@ class Car: ObservableObject {
     @Published var averageFuel: Double
     @Published var averageCost: Double
     
-    @Published var allExpenses = [ExpenseItem]()
-    @Published var fuelExpenses = [FuelExpenseItem]()
-    @Published var serviceExpenses = [ServiceExpenseItem]()
-    @Published var otherExpenses = [ExpenseItem]()
+//    @Published var allExpenses = [ExpenseItem]()
+//    @Published var fuelExpenses = [FuelExpenseItem]()
+//    @Published var serviceExpenses = [ServiceExpenseItem]()
+//    @Published var otherExpenses = [ExpenseItem]()
     
-//    @Published var allExpenses = [EI]()
-//    @Published var fuelExpenses = [FEI]()
-//    @Published var serviceExpenses = [SEI]()
-//    @Published var otherExpenses = [EI]()
+    @Published var allExpenses = [EI]()
+    @Published var fuelExpenses = [FEI]()
+    @Published var serviceExpenses = [SEI]()
+    @Published var otherExpenses = [EI]()
     
     init(name: String, mileage: Int, averageFuel: Double, averageCost: Double) {
         self.name = name
@@ -152,9 +152,9 @@ class Car: ObservableObject {
         self.averageCost = averageCost
         
         self.allExpenses = [
-//            FuelExpenseItem(description: "-", mileage: 10000, cost: 3000, date: Date(), price: 52.94, volume: 60, type: .ai95, fullTank: true),
-//            FuelExpenseItem(description: "-", mileage: 10500, cost: 3000, date: Date(), price: 52.94, volume: 60, type: .ai95, fullTank: true),
-//            ExpenseItem(description: "washing", mileage: 10600, cost: 300, date: Date())
+            FuelExpenseItem(description: "-", mileage: 10000, cost: 3000, date: Date(), price: 52.94, volume: 60, type: .ai95, fullTank: true),
+            FuelExpenseItem(description: "-", mileage: 10500, cost: 3000, date: Date(), price: 52.94, volume: 60, type: .ai95, fullTank: true),
+            ExpenseItem(description: "washing", mileage: 10600, cost: 300, date: Date())
         ]
         self.fuelExpenses = [
             FuelExpenseItem(description: "-", mileage: 10000, cost: 3000, date: Date(), price: 52.94, volume: 60, type: .ai95, fullTank: true),
