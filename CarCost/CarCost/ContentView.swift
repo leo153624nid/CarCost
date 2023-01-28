@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, world!")
+        Text(FuelType.Diesel.rawValue)
             .padding()
     }
 }
@@ -34,9 +34,17 @@ protocol FuelExpenseItem: ExpenseItem {
     var fullTank: Bool { get set }
 }
 
-enum FuelType {
-    case Diesel
+enum Petrol: String {
+    case ai92 = "АИ-92"
+    case ai95 = "АИ-95"
+    case ai98 = "АИ-98"
+    case ai100 = "АИ-100"
+}
+
+enum FuelType: String {
+    case Diesel = "ДТ"
     case Petrol
+    case Gas = "Газ"
 }
 
 class Car {
@@ -45,10 +53,10 @@ class Car {
     var averageFuel: Double
     var averageCost: Double
     
-    init() {
-        self.name = "1"
-        self.mileage = 10
-        self.averageFuel = 2
-        self.averageCost = 1000
+    init(name: String, mileage: Int, averageFuel: Double, averageCost: Double) {
+        self.name = name
+        self.mileage = mileage
+        self.averageFuel = averageFuel
+        self.averageCost = averageCost
     }
 }
