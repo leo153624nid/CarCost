@@ -19,3 +19,18 @@ struct MainView_Previews: PreviewProvider {
         MainView()
     }
 }
+
+protocol ExpenseItem {
+    var description: String { get set }
+    var mileage: Int { get set }
+    var cost: Double { get set }
+    var date: Date { get set }
+}
+
+class Car {
+    var name: String
+    var mileage: Int
+    var averageFuel: Double
+    var averageCost: Double
+    
+}
