@@ -11,11 +11,11 @@ struct ContentView: View {
     @State private var selectedSection = "Fuel"
     let sections = ["All", "Fuel", "Service", "Other"]
     
-    var carTestData = ExpenseItem(description: "-", mileage: 100, cost: 1000, date: Date())
-    @ObservedObject var car = Car(name: "X3", mileage: 100, averageFuel: 10, averageCost: 1000)
+//    var carTestData = ExpenseItem(description: "-", mileage: 100, cost: 1000, date: Date())
+//    @ObservedObject var car = Car(name: "X3", mileage: 100, averageFuel: 10, averageCost: 1000)
     
     var body: some View {
-        car.allExpenses.append(carTestData)
+//        car.allExpenses.append(carTestData)
         return
             NavigationView {
                 VStack {
@@ -27,14 +27,14 @@ struct ContentView: View {
                     .pickerStyle(SegmentedPickerStyle())
                     Text(selectedSection)
                     
-                    List {
-                        ForEach(car.allExpenses) { item in
-                            Text("$\(item.cost)")
-                        }
-                    }
+//                    List {
+//                        ForEach(car.allExpenses) { item in
+//                            Text("$\(item.cost)")
+//                        }
+//                    }
                     Spacer()
                 }
-                .navigationBarTitle(Text("\(car.name)"))
+//                .navigationBarTitle(Text("\(car.name)"))
                 
             }
             
@@ -100,8 +100,8 @@ struct FuelExpenseItem: FEI, Identifiable {
 }
 
 struct ServiceExpenseItem: SEI, Identifiable {
-    var serviceName: String
     var id = UUID()
+    var serviceName: String
     var description: String
     var mileage: Int
     var cost: Double
