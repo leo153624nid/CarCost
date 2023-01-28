@@ -30,7 +30,7 @@ protocol ExpenseItem {
 protocol FuelExpenseItem: ExpenseItem {
     var price: Double { get set }
     var volume: Double { get set }
-    var type: String { get set }
+    var type: Petrol { get }
     var fullTank: Bool { get set }
 }
 
