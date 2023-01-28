@@ -27,6 +27,18 @@ protocol ExpenseItem {
     var date: Date { get set }
 }
 
+protocol FuelExpenseItem: ExpenseItem {
+    var price: Double { get set }
+    var volume: Double { get set }
+    var type: String { get set }
+    var fullTank: Bool { get set }
+}
+
+enum FuelType {
+    case Diesel
+    case Petrol
+}
+
 class Car {
     var name: String
     var mileage: Int
