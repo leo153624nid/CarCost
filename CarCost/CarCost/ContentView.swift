@@ -11,12 +11,9 @@ struct ContentView: View {
     @State private var selectedSection = "Fuel"
     let sections = ["All", "Fuel", "Service", "Other"]
     
-    var carTestData = ExpenseItem(description: "-", mileage: 100, cost: 1000, date: Date())
     @ObservedObject var car = Car(name: "X3", mileage: 100, averageFuel: 10, averageCost: 1000)
     
     var body: some View {
-//        car.allExpenses.append(carTestData)
-        return
             NavigationView {
                 VStack {
                     Picker("", selection: $selectedSection, content: {
@@ -124,6 +121,11 @@ class Car: ObservableObject {
         self.mileage = mileage
         self.averageFuel = averageFuel
         self.averageCost = averageCost
+        
+        self.allExpenses = [ExpenseItem(description: "EI", mileage: 100, cost: 1000, date: Date())]
+        self.fuelExpenses = [FuelExpenseItem(description: "-", mileage: 101, cost: 3000, date: Date(), price: 52.94, volume: 60, type: .ai95, fullTank: true)]
+        self.serviceExpenses = [ServiceExpenseItem(serviceName: "self", description: "something", mileage: 102, cost: 100, date: Date())]
+        self.otherExpenses = self.allExpenses
     }
 }
 
