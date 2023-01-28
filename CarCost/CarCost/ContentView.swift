@@ -39,10 +39,16 @@ enum FuelType {
     case Petrol
 }
 
-//class Car {
-//    var name: String
-//    var mileage: Int
-//    var averageFuel: Double
-//    var averageCost: Double
-//    
-//}
+class Car {
+    var name: String
+    var mileage: Int
+    var averageFuel: Double
+    var averageCost: Double
+    
+    init() {
+        self.name = "1"
+        self.mileage = 10
+        self.averageFuel = 2
+        self.averageCost = 1000
+    }
+}
