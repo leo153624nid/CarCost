@@ -9,7 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text(FuelType.Diesel.rawValue)
+        car.allExpenses.append(carTestData)
+        return Text("\(car.allExpenses[0].date)")
             .padding()
     }
 }
@@ -53,13 +54,9 @@ enum FuelType: String {
 
 struct EI: ExpenseItem {
     var description: String
-    
     var mileage: Int
-    
     var cost: Double
-    
     var date: Date
-    
 }
 
 let carTestData = EI(description: "-", mileage: 100, cost: 1000, date: Date())
@@ -82,3 +79,7 @@ class Car {
         self.averageCost = averageCost
     }
 }
+
+let car = Car(name: "X3", mileage: 100, averageFuel: 10, averageCost: 1000)
+
+
