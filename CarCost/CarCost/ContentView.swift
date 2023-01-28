@@ -46,10 +46,10 @@ struct ContentView: View {
 }
 
 struct ExpensePosts: View {
-    var dataArr: [ExpenseItem]
+    var dataArr: [EI]
     
     var body: some View {
-        ForEach(dataArr) { item in
+        ForEach(dataArr, id: \.self) { item in
             HStack {
                 VStack(alignment: .leading) {
                     Text("\(item.description)")
