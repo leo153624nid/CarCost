@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		FA105EDA2986A149003A5788 /* ExpensesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA105ED92986A149003A5788 /* ExpensesView.swift */; };
 		FA105EDD2986A1E9003A5788 /* CarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA105EDC2986A1E9003A5788 /* CarModel.swift */; };
+		FA105EE02986A6F3003A5788 /* StatisticView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA105EDF2986A6F3003A5788 /* StatisticView.swift */; };
 		FA1C016729854AC900A66780 /* CarCostApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1C016629854AC900A66780 /* CarCostApp.swift */; };
 		FA1C016929854AC900A66780 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1C016829854AC900A66780 /* ContentView.swift */; };
 		FA1C016B29854ACB00A66780 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA1C016A29854ACB00A66780 /* Assets.xcassets */; };
@@ -18,6 +19,7 @@
 /* Begin PBXFileReference section */
 		FA105ED92986A149003A5788 /* ExpensesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesView.swift; sourceTree = "<group>"; };
 		FA105EDC2986A1E9003A5788 /* CarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarModel.swift; sourceTree = "<group>"; };
+		FA105EDF2986A6F3003A5788 /* StatisticView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticView.swift; sourceTree = "<group>"; };
 		FA1C016329854AC900A66780 /* CarCost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarCost.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA1C016629854AC900A66780 /* CarCostApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarCostApp.swift; sourceTree = "<group>"; };
 		FA1C016829854AC900A66780 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -58,6 +60,7 @@
 			children = (
 				FA1C016629854AC900A66780 /* CarCostApp.swift */,
 				FA1C016829854AC900A66780 /* ContentView.swift */,
+				FA105EDF2986A6F3003A5788 /* StatisticView.swift */,
 				FA105EDC2986A1E9003A5788 /* CarModel.swift */,
 				FA105ED92986A149003A5788 /* ExpensesView.swift */,
 				FA1C016A29854ACB00A66780 /* Assets.xcassets */,
@@ -145,6 +148,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA105EDD2986A1E9003A5788 /* CarModel.swift in Sources */,
+				FA105EE02986A6F3003A5788 /* StatisticView.swift in Sources */,
 				FA1C016929854AC900A66780 /* ContentView.swift in Sources */,
 				FA105EDA2986A149003A5788 /* ExpensesView.swift in Sources */,
 				FA1C016729854AC900A66780 /* CarCostApp.swift in Sources */,
