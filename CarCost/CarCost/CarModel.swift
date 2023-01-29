@@ -116,13 +116,33 @@ class Car: ObservableObject {
         self.averageFuel = averageFuel
         self.averageCost = averageCost
         
-        self.allExpenses = [
+        self.allExpenses = arrSortedByDate(dataArr:[
             FuelExpenseItem(description: "-", mileage: 10000, cost: 3000, date: Date(), price: 52.94, volume: 60, type: .ai95, fullTank: true),
             FuelExpenseItem(description: "-", mileage: 10500, cost: 3000, date: Date(timeIntervalSince1970: 1423423423), price: 52.94, volume: 60, type: .ai95, fullTank: true),
             ServiceExpenseItem(serviceName: "self", description: "washing", mileage: 10600, cost: 300, date: Date()),
             ServiceExpenseItem(serviceName: "self", description: "washing", mileage: 11600, cost: 400, date: Date(timeIntervalSince1970: 823423423)),
             ExpenseItem(description: "oil filter", mileage: 10700, cost: 300, date: Date(timeIntervalSince1970: 823534423)),
             ExpenseItem(description: "oil filter", mileage: 11700, cost: 400, date: Date(timeIntervalSince1970: 423423423)),
-        ]
+        ])
     }
+}
+
+func arrSortedBy(period: String, dataArr: [EI]) -> [EI] { // TODO !!!!!!!!!!!!!!!!!!!!!!!!
+    let array = [EI]()
+    if period == "Month" {
+//        let array = dataArr.sorted(by: {
+//            Calendar.current.component(.month, from: $0.date) > Calendar.current.component(.month, from: $1.date)
+//        })
+        let array = dataArr.sorted(by: {
+            $0.date < $1.date
+        })
+        print(array)
+        return array
+    }
+    return array
+}
+
+func arrSortedByDate(dataArr: [EI]) -> [EI] {
+    let array = dataArr.sorted(by: { $0.date < $1.date })
+    return array
 }

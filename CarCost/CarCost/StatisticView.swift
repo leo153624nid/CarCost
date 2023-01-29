@@ -39,27 +39,6 @@ struct StatisticView: View {
     }
 }
 
-func arrSortedBy(period: String, dataArr: [EI]) -> [EI] {
-    let array = [EI]()
-    if period == "Month" {
-//        let array = dataArr.sorted(by: {
-//            Calendar.current.component(.month, from: $0.date) > Calendar.current.component(.month, from: $1.date)
-//        })
-        let array = dataArr.sorted(by: {
-            $0.date < $1.date
-        })
-        print(array)
-        return array
-    }
- 
-    return array
-}
-
-func arrSortedByDate(dataArr: [EI]) -> [EI] {
-    let array = dataArr.sorted(by: { $0.date < $1.date })
-    return array
-}
-
 struct StatisticPosts: View {
     let dataArr: [EI]
     var dataArrSorted: [EI] {
