@@ -30,7 +30,7 @@ struct ExpensesView: View {
                         default:
                             ExpensePosts(dataArr: car.allExpenses )
                     }
-                }
+                }.listStyle(GroupedListStyle())
                 Spacer()
             }
             .navigationBarTitle("\(car.name)", displayMode: .inline)
@@ -39,7 +39,8 @@ struct ExpensesView: View {
 }
 
 struct ExpensePosts: View {
-    var dataArr: [EI]
+    let dataArr: [EI]
+   
     
     var body: some View {
         ForEach(dataArr, id: \.id) { item in

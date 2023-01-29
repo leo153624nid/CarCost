@@ -9,27 +9,29 @@ import SwiftUI
 
 struct StatisticView: View {
     @State private var selectedSection = "Month"
-    let sections = ["Month", "Year", "All"]
+    let sections = ["Month", "Year", "Total"]
     
     @EnvironmentObject var car: Car
     
+    
     var body: some View {
-        NavigationView {
+        let newArr = arrSortedByDate(dataArr: car.allExpenses)
+        return NavigationView {
             VStack {
                 HeaderPicker(sections: sections, selectedSection: $selectedSection)
                 
                 List {
                     switch self.selectedSection {
                         case "Month":
-                            StatisticPosts(dataArr: car.allExpenses )
+                            StatisticPosts(dataArr: newArr )
                         case "Year":
                             StatisticPosts(dataArr: car.fuelExpenses)
-                        case "All":
+                        case "Total":
                             StatisticPosts(dataArr: car.serviceExpenses)
                         default:
                             StatisticPosts(dataArr: car.allExpenses )
                     }
-                }
+                }.listStyle(GroupedListStyle())
                 Spacer()
             }
             .navigationBarTitle("Statistic", displayMode: .inline)
@@ -37,8 +39,32 @@ struct StatisticView: View {
     }
 }
 
+func arrSortedBy(period: String, dataArr: [EI]) -> [EI] {
+    let array = [EI]()
+    if period == "Month" {
+//        let array = dataArr.sorted(by: {
+//            Calendar.current.component(.month, from: $0.date) > Calendar.current.component(.month, from: $1.date)
+//        })
+        let array = dataArr.sorted(by: {
+            $0.date < $1.date
+        })
+        print(array)
+        return array
+    }
+ 
+    return array
+}
+
+func arrSortedByDate(dataArr: [EI]) -> [EI] {
+    let array = dataArr.sorted(by: { $0.date < $1.date })
+    return array
+}
+
 struct StatisticPosts: View {
-    var dataArr: [EI]
+    let dataArr: [EI]
+    var dataArrSorted: [EI] {
+        return [EI]()
+    }
     
     var body: some View {
         ForEach(dataArr, id: \.id) { item in
