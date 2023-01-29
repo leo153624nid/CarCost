@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var selectedTabView = 1
-    
     @ObservedObject var car = Car(name: "BMW X3", mileage: 100, averageFuel: 10, averageCost: 1000)
     
     var body: some View {

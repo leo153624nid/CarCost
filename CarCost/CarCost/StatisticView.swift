@@ -16,12 +16,7 @@ struct StatisticView: View {
     var body: some View {
         NavigationView {
             VStack {
-                Picker("", selection: $selectedSection, content: {
-                    ForEach(self.sections, id: \.self, content: {
-                        Text($0)
-                    })
-                })
-                .pickerStyle(SegmentedPickerStyle())
+                HeaderPicker(sections: sections, selectedSection: $selectedSection)
                 
                 List {
                     switch self.selectedSection {
