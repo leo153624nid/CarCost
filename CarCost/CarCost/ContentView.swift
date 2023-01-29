@@ -13,6 +13,20 @@ struct ContentView: View {
     var body: some View {
         TabView(selection: $selectedTabView) {
             ExpensesView()
+                .tabItem {
+                    Image(systemName: "1.circle")
+                    Text("Expenses")
+                }.tag(1)
+            Text("add")
+                .tabItem {
+                    Image(systemName: "2.circle")
+                    Text("add")
+                }.tag(2)
+            Text("Statistic")
+                .tabItem {
+                    Image(systemName: "3.circle")
+                    Text("Statistic")
+                }.tag(3)
         }
     }
 }
