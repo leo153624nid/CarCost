@@ -8,20 +8,15 @@
 import SwiftUI
 
 struct ExpensesView: View {
-    @State private var selectedSection = "Fuel"
-    let sections = ["All", "Fuel", "Service", "Other"]
-    
     @EnvironmentObject var car: Car
+    @State private var selectedSection = "Fuel"
+    
+    
     
     var body: some View {
         NavigationView {
             VStack {
-                Picker("", selection: $selectedSection, content: {
-                    ForEach(self.sections, id: \.self, content: {
-                        Text($0)
-                    })
-                })
-                .pickerStyle(SegmentedPickerStyle())
+                HeaderPicker(selectedSection: $selectedSection)
                 
                 List {
                     switch self.selectedSection {
@@ -64,8 +59,24 @@ struct ExpensePosts: View {
     }
 }
 
+struct HeaderPicker: View {
+        let sections = ["All", "Fuel", "Service", "Other"]
+    @Binding var selectedSection: String
+    
+    var body: some View {
+        Picker("", selection: $selectedSection, content: {
+            ForEach(self.sections, id: \.self, content: {
+                Text($0)
+            })
+        })
+        .pickerStyle(SegmentedPickerStyle())
+    }
+}
+
 //struct ExpensesView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        ExpensesView(car: Car(name: "test", mileage: 1, averageFuel: 2, averageCost: 3))
 //    }
 //}
+
+
