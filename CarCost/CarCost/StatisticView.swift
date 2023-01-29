@@ -13,29 +13,37 @@ struct StatisticView: View {
     
     @EnvironmentObject var car: Car
     
-    
     var body: some View {
-        let newArr = arrSortedByDate(dataArr: car.allExpenses)
-        return NavigationView {
-            VStack {
-                HeaderPicker(sections: sections, selectedSection: $selectedSection)
-                
-                List {
-                    switch self.selectedSection {
-                        case "Month":
-                            StatisticPosts(dataArr: newArr )
-                        case "Year":
-                            StatisticPosts(dataArr: car.fuelExpenses)
-                        case "Total":
-                            StatisticPosts(dataArr: car.serviceExpenses)
-                        default:
-                            StatisticPosts(dataArr: car.allExpenses )
-                    }
-                }.listStyle(GroupedListStyle())
-                Spacer()
+        // Массив уникальных дат (по годам) всех расходов
+        let arrOfYear = Array(Set(car.allExpenses.map { Calendar.current.component(.year, from: $0.date) }))
+        
+        return
+            NavigationView {
+                VStack {
+                    HeaderPicker(sections: sections, selectedSection: $selectedSection)
+                    
+                    List {
+                        switch self.selectedSection {
+                            case "Month":
+                                StatisticPosts(dataArr: car.allExpenses )
+                            case "Year":
+                                ForEach(arrOfYear, id: \.self) { item in
+                                    Section(header: Text("\(item)")) {
+                                        StatisticPosts(dataArr: car.allExpenses.filter {
+                                            Calendar.current.component(.year, from: $0.date) == item
+                                        })
+                                    }
+                                }
+                            case "Total":
+                                StatisticPosts(dataArr: car.allExpenses)
+                            default:
+                                StatisticPosts(dataArr: car.allExpenses )
+                        }
+                    }.listStyle(GroupedListStyle())
+                    Spacer()
+                }
+                .navigationBarTitle("Statistic", displayMode: .inline)
             }
-            .navigationBarTitle("Statistic", displayMode: .inline)
-        }
     }
 }
 
