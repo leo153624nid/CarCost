@@ -22,7 +22,7 @@ struct ContentView: View {
                     Image(systemName: "2.circle")
                     Text("add")
                 }.tag(2)
-            Text("Statistic")
+            StatisticView()
                 .tabItem {
                     Image(systemName: "3.circle")
                     Text("Statistic")
@@ -36,13 +36,3 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-
-
-
-
-
-
-
-
-
-
