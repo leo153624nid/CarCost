@@ -8,9 +8,39 @@
 import SwiftUI
 
 struct StatisticView: View {
+    @State private var selectedSection = "Month"
+    let sections = ["Month", "Year", "All"]
+    
+    @EnvironmentObject var car: Car
+    
     var body: some View {
-        Text("Statistic")
-            
+        NavigationView {
+            VStack {
+                Picker("", selection: $selectedSection, content: {
+                    ForEach(self.sections, id: \.self, content: {
+                        Text($0)
+                    })
+                })
+                .pickerStyle(SegmentedPickerStyle())
+                
+//                List {
+//                    switch self.selectedSection {
+//                        case "All":
+//                            ExpensePosts(dataArr: car.allExpenses )
+//                        case "Fuel":
+//                            ExpensePosts(dataArr: car.fuelExpenses)
+//                        case "Service":
+//                            ExpensePosts(dataArr: car.serviceExpenses)
+//                        case "Other":
+//                            ExpensePosts(dataArr: car.otherExpenses)
+//                        default:
+//                            ExpensePosts(dataArr: car.allExpenses )
+//                    }
+//                }
+                Spacer()
+            }
+            .navigationBarTitle("Statistic", displayMode: .inline)
+        }
     }
 }
 
