@@ -11,7 +11,7 @@ struct ExpensesView: View {
     @State private var selectedSection = "Fuel"
     let sections = ["All", "Fuel", "Service", "Other"]
     
-    @ObservedObject var car = Car(name: "BMW X3", mileage: 100, averageFuel: 10, averageCost: 1000)
+    @EnvironmentObject var car: Car
     
     var body: some View {
         NavigationView {
@@ -64,8 +64,8 @@ struct ExpensePosts: View {
     }
 }
 
-struct ExpensesView_Previews: PreviewProvider {
-    static var previews: some View {
-        ExpensesView()
-    }
-}
+//struct ExpensesView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ExpensesView(car: Car(name: "test", mileage: 1, averageFuel: 2, averageCost: 3))
+//    }
+//}

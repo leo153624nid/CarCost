@@ -10,6 +10,8 @@ import SwiftUI
 struct ContentView: View {
     @State private var selectedTabView = 1
     
+    @ObservedObject var car = Car(name: "BMW X3", mileage: 100, averageFuel: 10, averageCost: 1000)
+    
     var body: some View {
         TabView(selection: $selectedTabView) {
             ExpensesView()
@@ -27,7 +29,7 @@ struct ContentView: View {
                     Image(systemName: "3.circle")
                     Text("Statistic")
                 }.tag(3)
-        }
+        }.environmentObject(car)
     }
 }
 
