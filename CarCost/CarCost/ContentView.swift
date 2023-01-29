@@ -141,9 +141,35 @@ class Car: ObservableObject {
 //    @Published var otherExpenses = [ExpenseItem]()
     
     @Published var allExpenses = [EI]()
-    @Published var fuelExpenses = [FEI]()
-    @Published var serviceExpenses = [SEI]()
-    @Published var otherExpenses = [EI]()
+    var fuelExpenses : [FEI] {
+        var array = [FEI]()
+        for item in self.allExpenses {
+            if item is FEI {
+                array.append(item as! FEI)
+            }
+        }
+        return array
+    }
+    var serviceExpenses : [SEI] {
+        var array = [SEI]()
+        for item in self.allExpenses {
+            if item is SEI {
+                array.append(item as! SEI)
+            }
+        }
+        return array
+    }
+    var otherExpenses : [EI] {
+        var array = [EI]()
+        for item in self.allExpenses {
+            if item is FEI || item is SEI {
+                continue
+            } else {
+                array.append(item)
+            }
+        }
+        return array
+    }
     
     init(name: String, mileage: Int, averageFuel: Double, averageCost: Double) {
         self.name = name
@@ -154,14 +180,11 @@ class Car: ObservableObject {
         self.allExpenses = [
             FuelExpenseItem(description: "-", mileage: 10000, cost: 3000, date: Date(), price: 52.94, volume: 60, type: .ai95, fullTank: true),
             FuelExpenseItem(description: "-", mileage: 10500, cost: 3000, date: Date(), price: 52.94, volume: 60, type: .ai95, fullTank: true),
-            ExpenseItem(description: "washing", mileage: 10600, cost: 300, date: Date())
+            ServiceExpenseItem(serviceName: "self", description: "washing", mileage: 10600, cost: 300, date: Date()),
+            ServiceExpenseItem(serviceName: "self", description: "washing", mileage: 11600, cost: 400, date: Date()),
+            ExpenseItem(description: "oil filter", mileage: 10700, cost: 300, date: Date()),
+            ExpenseItem(description: "oil filter", mileage: 11700, cost: 400, date: Date()),
         ]
-        self.fuelExpenses = [
-            FuelExpenseItem(description: "-", mileage: 10000, cost: 3000, date: Date(), price: 52.94, volume: 60, type: .ai95, fullTank: true),
-            FuelExpenseItem(description: "-", mileage: 10500, cost: 3000, date: Date(), price: 52.94, volume: 60, type: .ai95, fullTank: true),
-        ]
-        self.serviceExpenses = []
-        self.otherExpenses = []
     }
 }
 
