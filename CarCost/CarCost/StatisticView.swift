@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct StatisticView: View {
+    @EnvironmentObject var car: Car
     @State private var selectedSection = "Month"
     let sections = ["Month", "Year", "Total"]
     
-    @EnvironmentObject var car: Car
-    
     var body: some View {
+        let calendar = Calendar.current
         // Массив уникальных дат (по годам) всех расходов
-        let arrOfYear = Array(Set(car.allExpenses.map { Calendar.current.component(.year, from: $0.date) }))
+        let arrOfYear = Array(Set(car.allExpenses.map { calendar.component(.year, from: $0.date) }))
         
         return
             NavigationView {
@@ -30,7 +30,7 @@ struct StatisticView: View {
                                 ForEach(arrOfYear, id: \.self) { item in
                                     Section(header: Text("\(item)")) {
                                         StatisticPosts(dataArr: car.allExpenses.filter {
-                                            Calendar.current.component(.year, from: $0.date) == item
+                                            calendar.component(.year, from: $0.date) == item
                                         })
                                     }
                                 }
@@ -47,11 +47,8 @@ struct StatisticView: View {
     }
 }
 
-struct StatisticPosts: View {
+struct StatisticPosts: View { // !!! TODO !!!
     let dataArr: [EI]
-    var dataArrSorted: [EI] {
-        return [EI]()
-    }
     
     var body: some View {
         ForEach(dataArr, id: \.id) { item in

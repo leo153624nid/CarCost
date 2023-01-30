@@ -13,34 +13,45 @@ struct ExpensesView: View {
     let sections = ["All", "Fuel", "Service", "Other"]
     
     var body: some View {
-        NavigationView {
-            VStack {
-                HeaderPicker(sections: sections, selectedSection: $selectedSection)
-                
-                List {
-                    switch self.selectedSection {
-                        case "All":
-                            ExpensePosts(dataArr: car.allExpenses )
-                        case "Fuel":
-                            ExpensePosts(dataArr: car.fuelExpenses)
-                        case "Service":
-                            ExpensePosts(dataArr: car.serviceExpenses)
-                        case "Other":
-                            ExpensePosts(dataArr: car.otherExpenses)
-                        default:
-                            ExpensePosts(dataArr: car.allExpenses )
-                    }
-                }.listStyle(GroupedListStyle())
-                Spacer()
+        let calendar = Calendar.current
+        // Массив уникальных дат (по годам) всех расходов
+        let arrOfYear = Array(Set(car.allExpenses.map { calendar.component(.year, from: $0.date) }))
+        
+        return
+            NavigationView {
+                VStack {
+                    HeaderPicker(sections: sections, selectedSection: $selectedSection)
+                    
+                    List {
+                        switch self.selectedSection {
+                            case "All":
+                                ForEach(arrOfYear, id: \.self) { item in
+                                    Section(header: Text("\(item)")) {
+                                        ExpensePosts(dataArr: car.allExpenses.filter {
+                                            calendar.component(.year, from: $0.date) == item
+                                        })
+                                    }
+                                }
+                            case "Fuel":
+                                ExpensePosts(dataArr: car.fuelExpenses)
+                            case "Service":
+                                ExpensePosts(dataArr: car.serviceExpenses)
+                            case "Other":
+                                ExpensePosts(dataArr: car.otherExpenses)
+                            default:
+                                ExpensePosts(dataArr: car.allExpenses )
+                        }
+                    }.listStyle(GroupedListStyle())
+                    Spacer()
+                }
+                .navigationBarTitle("\(car.name)", displayMode: .inline)
             }
-            .navigationBarTitle("\(car.name)", displayMode: .inline)
-        }
     }
 }
 
 struct ExpensePosts: View {
     let dataArr: [EI]
-   
+    
     
     var body: some View {
         ForEach(dataArr, id: \.id) { item in
