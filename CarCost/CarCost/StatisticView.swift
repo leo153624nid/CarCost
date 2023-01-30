@@ -13,33 +13,11 @@ struct StatisticView: View {
     let sections = ["Month", "Year", "Total"]
     
     var body: some View {
-        let calendar = Calendar.current
-        // Массив уникальных дат (по годам) всех расходов
-        let arrOfYear = Array(Set(car.allExpenses.map { calendar.component(.year, from: $0.date) }))
-        
-        return
             NavigationView {
                 VStack {
                     HeaderPicker(sections: sections, selectedSection: $selectedSection)
                     
-                    List {
-                        switch self.selectedSection {
-                            case "Month":
-                                StatisticPosts(dataArr: car.allExpenses )
-                            case "Year":
-                                ForEach(arrOfYear, id: \.self) { item in
-                                    Section(header: Text("\(item)")) {
-                                        StatisticPosts(dataArr: car.allExpenses.filter {
-                                            calendar.component(.year, from: $0.date) == item
-                                        })
-                                    }
-                                }
-                            case "Total":
-                                StatisticPosts(dataArr: car.allExpenses)
-                            default:
-                                StatisticPosts(dataArr: car.allExpenses )
-                        }
-                    }.listStyle(GroupedListStyle())
+                    StatisticPosts(selectedSection: $selectedSection)
                     Spacer()
                 }
                 .navigationBarTitle("Statistic", displayMode: .inline)
@@ -47,23 +25,46 @@ struct StatisticView: View {
     }
 }
 
-struct StatisticPosts: View { // !!! TODO !!!
-    let dataArr: [EI]
+struct StatisticPosts: View {
+    @EnvironmentObject var car : Car
+    @Binding var selectedSection : String
     
     var body: some View {
-        ForEach(dataArr, id: \.id) { item in
-            HStack {
-                VStack(alignment: .leading) {
-                    Text("\(item.description)")
-                    Text("\(item.mileage) km")
-                }
-                Spacer()
-                VStack(alignment: .trailing) {
-                    Text("\(item.date.description)")
-                    Text("$\(item.cost)")
-                }
-            }
+        // Массив данных меняется в зависимости от выбранной секции
+        var dataArr = [EI]()
+        switch self.selectedSection { // !!! TODO !!!
+            case "Month": dataArr = car.allExpenses
+            case "Year": dataArr = car.allExpenses
+            case "Total": dataArr = car.allExpenses
+            default: dataArr = car.allExpenses
         }
+        
+        let calendar = Calendar.current
+        // Массив уникальных дат (по годам) всех расходов
+        let arrOfYear = Array(Set(dataArr.map { calendar.component(.year, from: $0.date) }))
+        
+        return
+            List {
+                ForEach(arrOfYear, id: \.self) { timePeriod in
+                    Section(header: Text("\(timePeriod)")) {
+                        ForEach(dataArr.filter {
+                            calendar.component(.year, from: $0.date) == timePeriod
+                        }, id: \.id) { item in
+                            HStack { // !!! TODO !!!
+                                VStack(alignment: .leading) {
+                                    Text("\(item.description)")
+                                    Text("\(item.mileage) km")
+                                }
+                                Spacer()
+                                VStack(alignment: .trailing) {
+                                    Text("\(item.date.description)")
+                                    Text("$\(item.cost)")
+                                }
+                            }
+                        }
+                    }
+                }
+            }.listStyle(GroupedListStyle())
     }
 }
 

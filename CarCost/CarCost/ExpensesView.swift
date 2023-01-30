@@ -46,10 +46,10 @@ struct ExpensePosts: View {
         
         return
             List {
-                ForEach(arrOfYear, id: \.self) { item in
-                    Section(header: Text("\(item)")) {
+                ForEach(arrOfYear, id: \.self) { timePeriod in
+                    Section(header: Text("\(timePeriod)")) {
                         ForEach(dataArr.filter {
-                            calendar.component(.year, from: $0.date) == item
+                            calendar.component(.year, from: $0.date) == timePeriod
                         }, id: \.id) { item in
                             HStack {
                                 VStack(alignment: .leading) {
