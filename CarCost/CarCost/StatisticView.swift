@@ -30,25 +30,32 @@ struct StatisticPosts: View {
     @Binding var selectedSection : String
     
     var body: some View {
-        // Массив данных меняется в зависимости от выбранной секции
-        var dataArr = [EI]()
-        switch self.selectedSection { // !!! TODO !!!
-            case "Month": dataArr = car.allExpenses
-            case "Year": dataArr = car.allExpenses
-            case "Total": dataArr = car.allExpenses
-            default: dataArr = car.allExpenses
-        }
-        
         let calendar = Calendar.current
         // Массив уникальных дат (по годам) всех расходов
-        let arrOfYear = Array(Set(dataArr.map { calendar.component(.year, from: $0.date) })).sorted(by: { $0 > $1 })
+        let arrOfYear = Array(Set(car.allExpenses.map {
+            [calendar.component(.year, from: $0.date)]
+        })).sorted(by: { $0[0] > $1[0] })
+        
+        // Массив уникальных дат (по годам и месяцам) всех расходов
+        let arrOfMonth = Array(Set(car.allExpenses.map {
+            [calendar.component(.year, from: $0.date), calendar.component(.month, from: $0.date)]
+        })).sorted(by: { $0[0] > $1[0] })
+        
+        // Массив данных меняется в зависимости от выбранной секции
+        var arrOfTimePeriod = [[Int]]()
+        switch self.selectedSection {
+            case "Month": arrOfTimePeriod = arrOfMonth
+            case "Year": arrOfTimePeriod = arrOfYear
+            case "Total": arrOfTimePeriod = [[2022]]  // !!! TODO !!!
+            default: arrOfTimePeriod = arrOfMonth
+        }
         
         return
             List {
-                ForEach(arrOfYear, id: \.self) { timePeriod in
-                    Section(header: Text("\(timePeriod)")) {
-                        ForEach(dataArr.filter {
-                            calendar.component(.year, from: $0.date) == timePeriod
+                ForEach(arrOfTimePeriod, id: \.self) { timePeriod in
+                    Section(header: Text(translateDate(array: timePeriod))) {
+                        ForEach(car.allExpenses.filter {
+                            calendar.component(.year, from: $0.date) == timePeriod[0] && calendar.component(.month, from: $0.date) == timePeriod[1]
                         }, id: \.id) { post in
                             HStack { // !!! TODO !!!
                                 VStack(alignment: .leading) {

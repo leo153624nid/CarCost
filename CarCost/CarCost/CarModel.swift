@@ -128,13 +128,17 @@ class Car: ObservableObject {
 }
 
 func translateDate(array: [Int]) -> String {
-    guard array.count == 3 else {
-        return "error date"
+    if array.count == 3 {
+        let year = array[0]
+        let month = array[1]
+        let day = array[2]
+        return "\(year) \(month) \(day)"
+    } else if array.count == 2 {
+        let year = array[0]
+        let month = array[1]
+        return "\(year) \(month)"
     }
-    let year = array[0]
-    let month = array[1]
-    let day = array[2]
-    return "\(year) \(month) \(day)"
+    return "date error"
 }
 
 func arrSortedByDateUp(dataArr: [EI]) -> [EI] {
