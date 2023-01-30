@@ -41,15 +41,18 @@ struct ExpensePosts: View {
         }
         
         let calendar = Calendar.current
-        // Массив уникальных дат (по годам) всех расходов
-        let arrOfYear = Array(Set(dataArr.map { calendar.component(.year, from: $0.date) })).sorted(by: { $0 > $1 })
+        
+        // Массив уникальных дат (по годам, месяцам и дням) всех расходов
+        let arrOfTimePeriod = Array(Set(dataArr.map {
+            [calendar.component(.year, from: $0.date), calendar.component(.month, from: $0.date), calendar.component(.day, from: $0.date)]
+        })).sorted(by: { $0[0] > $1[0] })
         
         return
             List {
-                ForEach(arrOfYear, id: \.self) { timePeriod in
-                    Section(header: Text("\(timePeriod)")) {
+                ForEach(arrOfTimePeriod, id: \.self) { timePeriod in
+                    Section(header: Text(translateDate(array: timePeriod))) {
                         ForEach(dataArr.filter {
-                            calendar.component(.year, from: $0.date) == timePeriod
+                            calendar.component(.year, from: $0.date) == timePeriod[0] && calendar.component(.month, from: $0.date) == timePeriod[1]
                         }, id: \.id) { post in
                             HStack {
                                 VStack(alignment: .leading) {

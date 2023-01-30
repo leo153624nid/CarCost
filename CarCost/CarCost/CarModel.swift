@@ -127,19 +127,14 @@ class Car: ObservableObject {
     }
 }
 
-func arrSortedBy(period: String, dataArr: [EI]) -> [EI] { // TODO !!!!!!!!!!!!!!!!!!!!!!!!
-    let array = [EI]()
-    if period == "Month" {
-//        let array = dataArr.sorted(by: {
-//            Calendar.current.component(.month, from: $0.date) > Calendar.current.component(.month, from: $1.date)
-//        })
-        let array = dataArr.sorted(by: {
-            $0.date < $1.date
-        })
-        print(array)
-        return array
+func translateDate(array: [Int]) -> String {
+    guard array.count == 3 else {
+        return "error date"
     }
-    return array
+    let year = array[0]
+    let month = array[1]
+    let day = array[2]
+    return "\(year) \(month) \(day)"
 }
 
 func arrSortedByDateUp(dataArr: [EI]) -> [EI] {
