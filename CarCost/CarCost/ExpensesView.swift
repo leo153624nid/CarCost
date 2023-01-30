@@ -42,7 +42,7 @@ struct ExpensePosts: View {
         
         let calendar = Calendar.current
         // Массив уникальных дат (по годам) всех расходов
-        let arrOfYear = Array(Set(dataArr.map { calendar.component(.year, from: $0.date) }))
+        let arrOfYear = Array(Set(dataArr.map { calendar.component(.year, from: $0.date) })).sorted(by: { $0 > $1 })
         
         return
             List {
@@ -50,16 +50,16 @@ struct ExpensePosts: View {
                     Section(header: Text("\(timePeriod)")) {
                         ForEach(dataArr.filter {
                             calendar.component(.year, from: $0.date) == timePeriod
-                        }, id: \.id) { item in
+                        }, id: \.id) { post in
                             HStack {
                                 VStack(alignment: .leading) {
-                                    Text("\(item.description)")
-                                    Text("\(item.mileage) km")
+                                    Text("\(post.description)")
+                                    Text("\(post.mileage) km")
                                 }
                                 Spacer()
                                 VStack(alignment: .trailing) {
-                                    Text("\(item.date.description)")
-                                    Text("$\(item.cost)")
+                                    Text("\(post.date.description)")
+                                    Text("$\(post.cost)")
                                 }
                             }
                         }

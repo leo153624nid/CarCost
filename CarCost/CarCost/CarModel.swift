@@ -116,7 +116,7 @@ class Car: ObservableObject {
         self.averageFuel = averageFuel
         self.averageCost = averageCost
         
-        self.allExpenses = arrSortedByDate(dataArr:[
+        self.allExpenses = arrSortedByDateUp(dataArr:[
             FuelExpenseItem(description: "-", mileage: 10000, cost: 3000, date: Date(), price: 52.94, volume: 60, type: .ai95, fullTank: true),
             FuelExpenseItem(description: "-", mileage: 10500, cost: 3000, date: Date(timeIntervalSince1970: 1423423423), price: 52.94, volume: 60, type: .ai95, fullTank: true),
             ServiceExpenseItem(serviceName: "self", description: "washing", mileage: 10600, cost: 300, date: Date()),
@@ -142,7 +142,12 @@ func arrSortedBy(period: String, dataArr: [EI]) -> [EI] { // TODO !!!!!!!!!!!!!!
     return array
 }
 
-func arrSortedByDate(dataArr: [EI]) -> [EI] {
+func arrSortedByDateUp(dataArr: [EI]) -> [EI] {
+    let array = dataArr.sorted(by: { $0.date > $1.date })
+    return array
+}
+
+func arrSortedByDateDown(dataArr: [EI]) -> [EI] {
     let array = dataArr.sorted(by: { $0.date < $1.date })
     return array
 }
