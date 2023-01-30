@@ -41,7 +41,7 @@ struct StatisticPosts: View {
             [calendar.component(.year, from: $0.date), calendar.component(.month, from: $0.date)]
         })).sorted(by: { $0[0] > $1[0] })
         
-        // Массив данных меняется в зависимости от выбранной секции
+        // Массив дат меняется в зависимости от выбранной секции
         var arrOfTimePeriod = [[Int]]()
         switch self.selectedSection {
             case "Month": arrOfTimePeriod = arrOfMonth
@@ -55,7 +55,14 @@ struct StatisticPosts: View {
                 ForEach(arrOfTimePeriod, id: \.self) { timePeriod in
                     Section(header: Text(translateDate(array: timePeriod))) {
                         ForEach(car.allExpenses.filter {
-                            calendar.component(.year, from: $0.date) == timePeriod[0] && calendar.component(.month, from: $0.date) == timePeriod[1]
+                            var condition = true
+                            switch self.selectedSection {
+                                case "Month": condition = calendar.component(.year, from: $0.date) == timePeriod[0] && calendar.component(.month, from: $0.date) == timePeriod[1]
+                                case "Year": condition = calendar.component(.year, from: $0.date) == timePeriod[0]
+                                case "Total": condition = true
+                                default: condition = true
+                            }
+                            return condition   
                         }, id: \.id) { post in
                             HStack { // !!! TODO !!!
                                 VStack(alignment: .leading) {
