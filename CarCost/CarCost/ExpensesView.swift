@@ -61,8 +61,13 @@ struct ExpensePosts: View {
                                 }
                                 Spacer()
                                 VStack(alignment: .trailing) {
-                                    Text("\(post.date.description)")
                                     Text("$\(post.cost)")
+                                    if let post = post as? FEI {
+                                        Text("\(post.volume) lit")
+                                    } else {
+                                        Text("")
+                                    }
+                                    
                                 }
                             }
                         }
