@@ -13,60 +13,59 @@ struct ExpensesView: View {
     let sections = ["All", "Fuel", "Service", "Other"]
     
     var body: some View {
-        let calendar = Calendar.current
-        // Массив уникальных дат (по годам) всех расходов
-        let arrOfYear = Array(Set(car.allExpenses.map { calendar.component(.year, from: $0.date) }))
-        
-        return
-            NavigationView {
-                VStack {
-                    HeaderPicker(sections: sections, selectedSection: $selectedSection)
-                    
-                    List {
-                        switch self.selectedSection {
-                            case "All":
-                                ForEach(arrOfYear, id: \.self) { item in
-                                    Section(header: Text("\(item)")) {
-                                        ExpensePosts(dataArr: car.allExpenses.filter {
-                                            calendar.component(.year, from: $0.date) == item
-                                        })
-                                    }
-                                }
-                            case "Fuel":
-                                ExpensePosts(dataArr: car.fuelExpenses)
-                            case "Service":
-                                ExpensePosts(dataArr: car.serviceExpenses)
-                            case "Other":
-                                ExpensePosts(dataArr: car.otherExpenses)
-                            default:
-                                ExpensePosts(dataArr: car.allExpenses )
-                        }
-                    }.listStyle(GroupedListStyle())
-                    Spacer()
-                }
-                .navigationBarTitle("\(car.name)", displayMode: .inline)
+        NavigationView {
+            VStack {
+                HeaderPicker(sections: sections, selectedSection: $selectedSection)
+                
+                ExpensePosts(selectedSection: $selectedSection)
+                Spacer()
             }
+            .navigationBarTitle("\(car.name)", displayMode: .inline)
+        }
     }
 }
 
 struct ExpensePosts: View {
-    let dataArr: [EI]
-    
+    @EnvironmentObject var car : Car
+    @Binding var selectedSection : String
     
     var body: some View {
-        ForEach(dataArr, id: \.id) { item in
-            HStack {
-                VStack(alignment: .leading) {
-                    Text("\(item.description)")
-                    Text("\(item.mileage) km")
-                }
-                Spacer()
-                VStack(alignment: .trailing) {
-                    Text("\(item.date.description)")
-                    Text("$\(item.cost)")
-                }
-            }
+        // Массив данных меняется в зависимости от выбранной секции
+        var dataArr = [EI]()
+        switch self.selectedSection {
+            case "All": dataArr = car.allExpenses
+            case "Fuel": dataArr = car.fuelExpenses
+            case "Service": dataArr = car.serviceExpenses
+            case "Other": dataArr = car.otherExpenses
+            default: dataArr = car.allExpenses
         }
+        
+        let calendar = Calendar.current
+        // Массив уникальных дат (по годам) всех расходов
+        let arrOfYear = Array(Set(dataArr.map { calendar.component(.year, from: $0.date) }))
+        
+        return
+            List {
+                ForEach(arrOfYear, id: \.self) { item in
+                    Section(header: Text("\(item)")) {
+                        ForEach(dataArr.filter {
+                            calendar.component(.year, from: $0.date) == item
+                        }, id: \.id) { item in
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text("\(item.description)")
+                                    Text("\(item.mileage) km")
+                                }
+                                Spacer()
+                                VStack(alignment: .trailing) {
+                                    Text("\(item.date.description)")
+                                    Text("$\(item.cost)")
+                                }
+                            }
+                        }
+                    }
+                }
+            }.listStyle(GroupedListStyle())
     }
 }
 
