@@ -43,17 +43,23 @@ struct StatisticPosts: View {
         
         // Массив дат меняется в зависимости от выбранной секции
         var arrOfTimePeriod = [[Int]]()
+        var prefix = ""
         switch self.selectedSection {
             case "Month": arrOfTimePeriod = arrOfMonth
             case "Year": arrOfTimePeriod = arrOfYear
-            case "Total": arrOfTimePeriod = [arrOfMonth.last!] // TODO
+            case "Total":
+                arrOfTimePeriod = [arrOfMonth.last!]
+                prefix = "from"
             default: arrOfTimePeriod = arrOfMonth
         }
         
         return
             List {
                 ForEach(arrOfTimePeriod, id: \.self) { timePeriod in
-                    Section(header: Text(translateDate(array: timePeriod))) {
+                    Section(header:
+                                Text("\(prefix) \(translateDate(array: timePeriod))"))
+                    {
+                        // Фильтрация массива со всеми расходами по выбранному временному отрезку
                         let dataArr = car.allExpenses.filter {
                             var condition = false
                             switch self.selectedSection {
@@ -64,14 +70,12 @@ struct StatisticPosts: View {
                             }
                             return condition   
                         }
-                        
                         StatisticPostView(dataArr: dataArr)
                     }
                 }
             }.listStyle(GroupedListStyle())
     }
 }
-
 
 struct StatisticPostView: View {
     var dataArr : [EI]
