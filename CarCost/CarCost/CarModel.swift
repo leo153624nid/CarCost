@@ -26,6 +26,14 @@ protocol SEI: EI {
     var serviceName: String { get set }
 }
 
+protocol StatisticPostProtocol {
+    var averageFuel: Double { get set }
+    var fuelCost: Double { get set }
+    var otherCost: Double { get set }
+    var mileage: Int { get set }
+    var fuelingCount: Int { get set }
+}
+
 enum Petrol: String {
     case ai92 = "АИ-92"
     case ai95 = "АИ-95"
@@ -66,6 +74,14 @@ struct ServiceExpenseItem: SEI, Identifiable {
     var mileage: Int
     var cost: Double
     var date: Date
+}
+
+struct StatisticPost: StatisticPostProtocol {
+    var averageFuel: Double
+    var fuelCost: Double
+    var otherCost: Double
+    var mileage: Int
+    var fuelingCount: Int
 }
 
 class Car: ObservableObject {

@@ -56,7 +56,7 @@ struct ExpensePosts: View {
                         ForEach(dataArr.filter {
                             calendar.component(.year, from: $0.date) == timePeriod[0] && calendar.component(.month, from: $0.date) == timePeriod[1] && calendar.component(.day, from: $0.date) == timePeriod[2]
                         }, id: \.id) { post in
-                            HStack {
+                            HStack { // TODO SUBVIEW
                                 VStack(alignment: .leading) {
                                     Text("\(post.description)")
                                     Text("\(post.mileage) km")

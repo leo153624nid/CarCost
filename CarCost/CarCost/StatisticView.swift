@@ -54,7 +54,7 @@ struct StatisticPosts: View {
             List {
                 ForEach(arrOfTimePeriod, id: \.self) { timePeriod in
                     Section(header: Text(translateDate(array: timePeriod))) {
-                        ForEach(car.allExpenses.filter {
+                        let dataArr = car.allExpenses.filter {
                             var condition = false
                             switch self.selectedSection {
                                 case "Month": condition = calendar.component(.year, from: $0.date) == timePeriod[0] && calendar.component(.month, from: $0.date) == timePeriod[1]
@@ -63,24 +63,34 @@ struct StatisticPosts: View {
                                 default: condition = false
                             }
                             return condition   
-                        }, id: \.id) { post in
-                            HStack { // !!! TODO !!!
-                                VStack(alignment: .leading) {
-                                    Text("\(post.description)")
-                                    Text("\(post.mileage) km")
-                                }
-                                Spacer()
-                                VStack(alignment: .trailing) {
-                                    Text("\(post.date.description)")
-                                    Text("$\(post.cost)")
-                                }
-                            }
                         }
+                        
+                        StatisticPostView(dataArr: dataArr, arrOfTimePeriod: arrOfTimePeriod)
                     }
                 }
             }.listStyle(GroupedListStyle())
     }
 }
+
+
+struct StatisticPostView: View {
+    var dataArr : [EI]
+    var arrOfTimePeriod : [[Int]]
+    
+    var body: some View {
+        
+        
+        
+        VStack {
+            HStack {
+                Text("AverageFuel")
+                Text("\(dataArr[0].mileage) km") // TODO
+            }
+            
+        }
+    }
+}
+
 
 //struct StatisticView_Previews: PreviewProvider {
 //    static var previews: some View {
