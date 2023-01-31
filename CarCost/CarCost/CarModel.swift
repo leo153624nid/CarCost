@@ -133,12 +133,12 @@ class Car: ObservableObject {
         self.averageCost = averageCost
         
         self.allExpenses = arrSortedByDateUp(dataArr:[
-            FuelExpenseItem(description: "-", mileage: 10000, cost: 3000, date: Date(), price: 52.94, volume: 60, type: .ai95, fullTank: true),
-            FuelExpenseItem(description: "-", mileage: 10500, cost: 3000, date: Date(timeIntervalSince1970: 1423423423), price: 52.94, volume: 60, type: .ai95, fullTank: true),
-            ServiceExpenseItem(serviceName: "self", description: "washing", mileage: 10600, cost: 300, date: Date()),
-            ServiceExpenseItem(serviceName: "self", description: "washing", mileage: 11600, cost: 400, date: Date(timeIntervalSince1970: 823423423)),
-            ExpenseItem(description: "oil filter", mileage: 10700, cost: 300, date: Date(timeIntervalSince1970: 823534423)),
-            ExpenseItem(description: "oil filter", mileage: 11700, cost: 400, date: Date(timeIntervalSince1970: 423423423)),
+            FuelExpenseItem(description: "-1", mileage: 100, cost: 3000, date: Date(), price: 52.94, volume: 60, type: .ai95, fullTank: true),
+            FuelExpenseItem(description: "-2", mileage: 200, cost: 3000, date: Date(), price: 52.94, volume: 60, type: .ai95, fullTank: true),
+            ServiceExpenseItem(serviceName: "self", description: "washing1", mileage: 300, cost: 300, date: Date()),
+            ServiceExpenseItem(serviceName: "self", description: "washing2", mileage: 400, cost: 400, date: Date()),
+            ExpenseItem(description: "oil filter1", mileage: 500, cost: 1000, date: Date()),
+            ExpenseItem(description: "oil filter2", mileage: 600, cost: 1100, date: Date()),
         ])
     }
 }
