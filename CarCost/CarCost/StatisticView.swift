@@ -46,7 +46,7 @@ struct StatisticPosts: View {
         switch self.selectedSection {
             case "Month": arrOfTimePeriod = arrOfMonth
             case "Year": arrOfTimePeriod = arrOfYear
-            case "Total": arrOfTimePeriod = [[2022]]  // !!! TODO !!!
+            case "Total": arrOfTimePeriod = [arrOfMonth.last!] // TODO
             default: arrOfTimePeriod = arrOfMonth
         }
         
@@ -55,12 +55,12 @@ struct StatisticPosts: View {
                 ForEach(arrOfTimePeriod, id: \.self) { timePeriod in
                     Section(header: Text(translateDate(array: timePeriod))) {
                         ForEach(car.allExpenses.filter {
-                            var condition = true
+                            var condition = false
                             switch self.selectedSection {
                                 case "Month": condition = calendar.component(.year, from: $0.date) == timePeriod[0] && calendar.component(.month, from: $0.date) == timePeriod[1]
                                 case "Year": condition = calendar.component(.year, from: $0.date) == timePeriod[0]
                                 case "Total": condition = true
-                                default: condition = true
+                                default: condition = false
                             }
                             return condition   
                         }, id: \.id) { post in

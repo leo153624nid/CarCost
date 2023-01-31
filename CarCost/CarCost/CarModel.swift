@@ -137,6 +137,9 @@ func translateDate(array: [Int]) -> String {
         let year = array[0]
         let month = array[1]
         return "\(year) \(month)"
+    } else if array.count == 1 {
+        let year = array[0]
+        return "\(year)"
     }
     return "date error"
 }
