@@ -65,7 +65,7 @@ struct StatisticPosts: View {
                             return condition   
                         }
                         
-                        StatisticPostView(dataArr: dataArr, arrOfTimePeriod: arrOfTimePeriod)
+                        StatisticPostView(dataArr: dataArr)
                     }
                 }
             }.listStyle(GroupedListStyle())
@@ -75,25 +75,60 @@ struct StatisticPosts: View {
 
 struct StatisticPostView: View {
     var dataArr : [EI]
-    var arrOfTimePeriod : [[Int]]
+    var averageFuel: Double {
+        return 11.11
+//        return self.dataArr.map({ item in
+//            guard let item = item as FuelExpenseItem else { return }
+//            return item.price
+//        })
+    }
+    var fuelCost: Double {
+        return self.dataArr.filter({ $0 is FuelExpenseItem }).reduce(0, {
+            $0 + $1.cost
+        })
+    }
+    var otherCost: Double {
+        return self.dataArr.filter({ $0 is ExpenseItem }).reduce(0, {
+            $0 + $1.cost
+        })
+    }
+    var mileage: Int {
+        return self.dataArr.filter({ $0 is ExpenseItem }).reduce(0, {
+            $0 + $1.mileage
+        })
+    }
+    var fuelingCount: Int {
+        return self.dataArr.filter({ $0 is FuelExpenseItem }).count
+    }
     
     var body: some View {
-        
-        
-        
         VStack {
-            HStack {
-                Text("AverageFuel")
-                Text("\(dataArr[0].mileage) km") // TODO
-            }
-            
+            StatisticPostRow(text: "AverageFuel", value: "\(averageFuel)")
+            StatisticPostRow(text: "fuelCost", value: "\(fuelCost)")
+            StatisticPostRow(text: "otherCost", value: "\(otherCost)")
+            StatisticPostRow(text: "Mileage", value: "\(mileage)")
+            StatisticPostRow(text: "fuelingCount", value: "\(fuelingCount)")
         }
     }
 }
 
+struct StatisticPostRow: View {
+    let text : String
+    let value : String
+    
+    var body: some View {
+        HStack {
+            Text(self.text)
+            Spacer()
+            Text(self.value)
+        }
+    }
+}
 
 //struct StatisticView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        StatisticView()
 //    }
 //}
+
+
