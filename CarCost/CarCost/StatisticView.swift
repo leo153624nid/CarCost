@@ -69,56 +69,31 @@ struct StatisticPosts: View {
                                 Text("\(prefix) \(translateDate(array: timePeriod))"))
                     {
                         // Фильтрация массива со всеми расходами по выбранному временному отрезку
-//                        let dataArr = car.allExpenses.filter {
-//                            var condition = false
-//                            switch self.selectedSection {
-//                                case "Month": condition = calendar.component(.year, from: $0.date) == timePeriod[0] && calendar.component(.month, from: $0.date) == timePeriod[1]
-//                                case "Year": condition = calendar.component(.year, from: $0.date) == timePeriod[0]
-//                                case "Total": condition = true
-//                                default: condition = false
-//                            }
-//                            return condition
-//                        }
                         let dataArr = filterArrOnTimePeriod(dataArray: car.allExpenses, timePeriod: self.selectedSection, arrOfTimePeriod: timePeriod)
-                        StatisticPostView(dataArr: dataArr)
+                        StatisticPostView(dataArr: dataArr, arrOfTimePeriod: timePeriod)
                     }
                 }
             }.listStyle(GroupedListStyle())
     }
 }
 
-// Фильтрация массива [EI] со всеми расходами по выбранному временному отрезку
-func filterArrOnTimePeriod(dataArray: [EI], timePeriod: String, arrOfTimePeriod: [Int]) -> [EI] {
-    let calendar = Calendar.current
-    var condition = false
-    
-    return dataArray.filter {
-        switch timePeriod {
-            case "Month":
-                condition = calendar.component(.year, from: $0.date) == arrOfTimePeriod[0] && calendar.component(.month, from: $0.date) == arrOfTimePeriod[1]
-            case "Year":
-                condition = calendar.component(.year, from: $0.date) == arrOfTimePeriod[0]
-            case "Total": condition = true
-            default: condition = false
-        }
-        return condition
-    }
-    
-//    let last = dataArray.filter({ $0.date < arrOfTimePeriod[0].date }).last ?? FuelExpenseItem(description: "noLast", mileage: 0, cost: 0, date: Date(), price: 0, volume: 0, type: .ai95, fullTank: false)
-//    let first = dataArray.filter({ $0.date > arrOfTimePeriod.last?.date ?? $0.date }).first ?? FuelExpenseItem(description: "noFirst", mileage: 0, cost: 0, date: Date(), price: 0, volume: 0, type: .ai95, fullTank: false)
-//
-//    arrOfTimePeriod.append(first)
-//    arrOfTimePeriod.insert(last, at: 0)
-}
-
 struct StatisticPostView: View {
-    var dataArr : [EI]
+    @EnvironmentObject var car : Car
+    let dataArr : [EI]
+    let arrOfTimePeriod : [Int] // do you need it???
+
     var averageFuel: Double {
-        return 11.11
-//        return self.dataArr.map({ item in
-//            guard let item = item as FuelExpenseItem else { return }
-//            return item.price
-//        })
+        let fuelDataArr = dataArr.filter ({ $0 is FuelExpenseItem }).map({ $0 as! FuelExpenseItem })
+
+        var last = car.fuelExpenses.filter({ $0.date < fuelDataArr[0].date }).last ?? FuelExpenseItem(description: "noLast", mileage: 0, cost: 0, date: Date(), price: 0, volume: 0, type: .ai95, fullTank: false)
+        var first = car.fuelExpenses.filter({ $0.date > fuelDataArr.last?.date ?? $0.date }).first ?? FuelExpenseItem(description: "noFirst", mileage: 0, cost: 0, date: Date(), price: 0, volume: 0, type: .ai95, fullTank: false)
+        
+        let a1 = AverageFuelCount(firstItem: last as! FuelExpenseItem, secondItem: fuelDataArr.first as! FuelExpenseItem)
+
+        let a3 = AverageFuelCount(firstItem: fuelDataArr.last as! FuelExpenseItem, secondItem: first as! FuelExpenseItem)
+        let a2 : Double // todo
+        return a1 + a2 + a3
+
     }
     var fuelCost: Double {
         return self.dataArr.filter({ $0 is FuelExpenseItem }).reduce(0, {
@@ -130,7 +105,7 @@ struct StatisticPostView: View {
             $0 + $1.cost
         })
     }
-    var mileage: Int {
+    var mileage: Int { // TODO !!!!!!!!!!!!!!!
         return self.dataArr.filter({ $0 is ExpenseItem }).reduce(0, {
             $0 + $1.mileage
         })
@@ -140,13 +115,15 @@ struct StatisticPostView: View {
     }
     
     var body: some View {
-        VStack {
-            StatisticPostRow(text: "AverageFuel", value: "\(averageFuel)")
-            StatisticPostRow(text: "fuelCost", value: "\(fuelCost)")
-            StatisticPostRow(text: "otherCost", value: "\(otherCost)")
-            StatisticPostRow(text: "Mileage", value: "\(mileage)")
-            StatisticPostRow(text: "fuelingCount", value: "\(fuelingCount)")
-        }
+
+        return
+            VStack {
+                StatisticPostRow(text: "AverageFuel", value: "\(averageFuel)")
+                StatisticPostRow(text: "fuelCost", value: "\(fuelCost)")
+                StatisticPostRow(text: "otherCost", value: "\(otherCost)")
+                StatisticPostRow(text: "Mileage", value: "\(mileage)")
+                StatisticPostRow(text: "fuelingCount", value: "\(fuelingCount)")
+            }
     }
 }
 
@@ -169,4 +146,6 @@ struct StatisticPostRow: View {
 //    }
 //}
 
-
+func AverageFuelCount(firstItem : FuelExpenseItem, secondItem : FuelExpenseItem) -> Double {
+    return secondItem.volume * 100 / Double(secondItem.mileage - firstItem.mileage)
+}

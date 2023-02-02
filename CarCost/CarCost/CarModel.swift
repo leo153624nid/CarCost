@@ -171,3 +171,21 @@ func arrSortedByDateDown(dataArr: [EI]) -> [EI] {
     let array = dataArr.sorted(by: { $0.date < $1.date })
     return array
 }
+
+// Фильтрация массива [EI] со всеми расходами по выбранному временному отрезку
+func filterArrOnTimePeriod(dataArray: [EI], timePeriod: String, arrOfTimePeriod: [Int]) -> [EI] {
+    let calendar = Calendar.current
+    var condition = false
+    
+    return dataArray.filter {
+        switch timePeriod {
+            case "Month":
+                condition = calendar.component(.year, from: $0.date) == arrOfTimePeriod[0] && calendar.component(.month, from: $0.date) == arrOfTimePeriod[1]
+            case "Year":
+                condition = calendar.component(.year, from: $0.date) == arrOfTimePeriod[0]
+            case "Total": condition = true
+            default: condition = false
+        }
+        return condition
+    }
+}
