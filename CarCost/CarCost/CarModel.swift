@@ -134,12 +134,13 @@ class Car: ObservableObject {
         
         self.allExpenses = arrSortedByDateUp(dataArr:[
             FuelExpenseItem(description: "f1", mileage: 100, cost: 3000, date: Date(timeIntervalSinceNow: -1000000), price: 52.94, volume: 60, type: .ai95, fullTank: true),
-            FuelExpenseItem(description: "f2", mileage: 200, cost: 3000, date: Date(timeIntervalSinceNow: 1000000), price: 52.94, volume: 60, type: .ai95, fullTank: true),
-            FuelExpenseItem(description: "f3", mileage: 300, cost: 3000, date: Date(), price: 52.94, volume: 60, type: .ai95, fullTank: true),
-            ServiceExpenseItem(serviceName: "self", description: "washing1", mileage: 300, cost: 300, date: Date()),
-            ServiceExpenseItem(serviceName: "self", description: "washing2", mileage: 400, cost: 400, date: Date()),
-            ExpenseItem(description: "oil filter1", mileage: 500, cost: 1000, date: Date()),
-            ExpenseItem(description: "oil filter2", mileage: 600, cost: 1100, date: Date()),
+            FuelExpenseItem(description: "f2", mileage: 200, cost: 3000, date: Date(timeIntervalSinceNow: -100000), price: 52.94, volume: 60, type: .ai95, fullTank: true),
+            FuelExpenseItem(description: "f3", mileage: 300, cost: 3000, date: Date(timeIntervalSinceNow: 10), price: 52.94, volume: 60, type: .ai95, fullTank: true),
+            FuelExpenseItem(description: "f4", mileage: 400, cost: 3000, date: Date(timeIntervalSinceNow: 6000000), price: 52.94, volume: 60, type: .ai95, fullTank: true),
+            ServiceExpenseItem(serviceName: "self", description: "washing1", mileage: 300, cost: 300, date: Date(timeIntervalSinceNow: 10)),
+            ServiceExpenseItem(serviceName: "self", description: "washing2", mileage: 400, cost: 400, date: Date(timeIntervalSinceNow: 10)),
+            ExpenseItem(description: "oil filter1", mileage: 500, cost: 1000, date: Date(timeIntervalSinceNow: 10)),
+            ExpenseItem(description: "oil filter2", mileage: 600, cost: 1100, date: Date(timeIntervalSinceNow: 10)),
         ])
     }
 }

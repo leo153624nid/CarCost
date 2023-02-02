@@ -39,7 +39,16 @@ struct StatisticPosts: View {
         // Массив уникальных дат (по годам и месяцам) всех расходов
         let arrOfMonth = Array(Set(car.allExpenses.map {
             [calendar.component(.year, from: $0.date), calendar.component(.month, from: $0.date)]
-        })).sorted(by: { $0[0] > $1[0] })
+        })).sorted(by: {
+            if $0[0] > $1[0] {
+                return true
+            } else if $0[0] == $1[0] {
+                if $0[1] > $1[1] {
+                    return true
+                }
+            }
+            return false
+        })
         
         // Массив дат меняется в зависимости от выбранной секции
         var arrOfTimePeriod = [[Int]]()
@@ -78,28 +87,28 @@ struct StatisticPosts: View {
 }
 
 // Фильтрация массива со всеми расходами по выбранному временному отрезку
-func filterArrOnTimePeriod(dataArray: [EI], timePeriod: String, arrOfTimePeriod: [Int], lastTimeIndex: [Int?], firstTimeIndex: [Int?]) -> [EI] {
-    let calendar = Calendar.current
-    var condition = false
-    var conditionForLast = false
-    var conditionForFirst = false
-    
-    let arrOfTimePeriod = dataArray.filter {
-        switch timePeriod {
-            case "Month":
-                condition = calendar.component(.year, from: $0.date) == arrOfTimePeriod[0] && calendar.component(.month, from: $0.date) == arrOfTimePeriod[1]
-            case "Year":
-                condition = calendar.component(.year, from: $0.date) == arrOfTimePeriod[0]
-            case "Total": condition = true
-            default: condition = false
-        }
-        return condition
-    }
-    
-    let last = dataArray
-    
-    return arrOfTimePeriod
-}
+//func filterArrOnTimePeriod(dataArray: [EI], timePeriod: String, arrOfTimePeriod: [Int], lastTimeIndex: [Int?], firstTimeIndex: [Int?]) -> [EI] {
+//    let calendar = Calendar.current
+//    var condition = false
+//    var conditionForLast = false
+//    var conditionForFirst = false
+//    
+//    let arrOfTimePeriod = dataArray.filter {
+//        switch timePeriod {
+//            case "Month":
+//                condition = calendar.component(.year, from: $0.date) == arrOfTimePeriod[0] && calendar.component(.month, from: $0.date) == arrOfTimePeriod[1]
+//            case "Year":
+//                condition = calendar.component(.year, from: $0.date) == arrOfTimePeriod[0]
+//            case "Total": condition = true
+//            default: condition = false
+//        }
+//        return condition
+//    }
+//    
+//    let last = dataArray
+//    
+//    return arrOfTimePeriod
+//}
 
 struct StatisticPostView: View {
     var dataArr : [EI]

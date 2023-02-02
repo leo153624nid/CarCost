@@ -47,7 +47,20 @@ struct ExpensePosts: View {
             [calendar.component(.year, from: $0.date),
              calendar.component(.month, from: $0.date),
              calendar.component(.day, from: $0.date)]
-        })).sorted(by: { $0[0] > $1[0] })
+        })).sorted(by: {
+            if $0[0] > $1[0] {
+                return true
+            } else if $0[0] == $1[0] {
+                if $0[1] > $1[1] {
+                    return true
+                } else if $0[1] == $1[1] {
+                    if $0[2] > $1[2] {
+                        return true
+                    }
+                }
+            }
+            return false 
+        })
         
         return
             List {
