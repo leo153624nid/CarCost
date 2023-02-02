@@ -84,7 +84,7 @@ struct StatisticPostView: View {
 
     var averageFuel: Double {
         let fuelDataArr = dataArr.filter ({ $0 is FuelExpenseItem }).map({ $0 as! FuelExpenseItem })
-
+        // todo fuelDataArr.count checking !!!!
         var last = car.fuelExpenses.filter({ $0.date < fuelDataArr[0].date }).last ?? FuelExpenseItem(description: "noLast", mileage: 0, cost: 0, date: Date(), price: 0, volume: 0, type: .ai95, fullTank: false)
         var first = car.fuelExpenses.filter({ $0.date > fuelDataArr.last?.date ?? $0.date }).first ?? FuelExpenseItem(description: "noFirst", mileage: 0, cost: 0, date: Date(), price: 0, volume: 0, type: .ai95, fullTank: false)
         
