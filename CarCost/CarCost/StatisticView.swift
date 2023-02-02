@@ -77,6 +77,30 @@ struct StatisticPosts: View {
     }
 }
 
+// Фильтрация массива со всеми расходами по выбранному временному отрезку
+func filterArrOnTimePeriod(dataArray: [EI], timePeriod: String, arrOfTimePeriod: [Int], lastTimeIndex: [Int?], firstTimeIndex: [Int?]) -> [EI] {
+    let calendar = Calendar.current
+    var condition = false
+    var conditionForLast = false
+    var conditionForFirst = false
+    
+    let arrOfTimePeriod = dataArray.filter {
+        switch timePeriod {
+            case "Month":
+                condition = calendar.component(.year, from: $0.date) == arrOfTimePeriod[0] && calendar.component(.month, from: $0.date) == arrOfTimePeriod[1]
+            case "Year":
+                condition = calendar.component(.year, from: $0.date) == arrOfTimePeriod[0]
+            case "Total": condition = true
+            default: condition = false
+        }
+        return condition
+    }
+    
+    let last = dataArray
+    
+    return arrOfTimePeriod
+}
+
 struct StatisticPostView: View {
     var dataArr : [EI]
     var averageFuel: Double {

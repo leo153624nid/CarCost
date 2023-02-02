@@ -133,8 +133,9 @@ class Car: ObservableObject {
         self.averageCost = averageCost
         
         self.allExpenses = arrSortedByDateUp(dataArr:[
-            FuelExpenseItem(description: "-1", mileage: 100, cost: 3000, date: Date(), price: 52.94, volume: 60, type: .ai95, fullTank: true),
-            FuelExpenseItem(description: "-2", mileage: 200, cost: 3000, date: Date(), price: 52.94, volume: 60, type: .ai95, fullTank: true),
+            FuelExpenseItem(description: "f1", mileage: 100, cost: 3000, date: Date(timeIntervalSinceNow: -1000000), price: 52.94, volume: 60, type: .ai95, fullTank: true),
+            FuelExpenseItem(description: "f2", mileage: 200, cost: 3000, date: Date(timeIntervalSinceNow: 1000000), price: 52.94, volume: 60, type: .ai95, fullTank: true),
+            FuelExpenseItem(description: "f3", mileage: 300, cost: 3000, date: Date(), price: 52.94, volume: 60, type: .ai95, fullTank: true),
             ServiceExpenseItem(serviceName: "self", description: "washing1", mileage: 300, cost: 300, date: Date()),
             ServiceExpenseItem(serviceName: "self", description: "washing2", mileage: 400, cost: 400, date: Date()),
             ExpenseItem(description: "oil filter1", mileage: 500, cost: 1000, date: Date()),
