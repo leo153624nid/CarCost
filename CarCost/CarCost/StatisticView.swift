@@ -69,16 +69,17 @@ struct StatisticPosts: View {
                                 Text("\(prefix) \(translateDate(array: timePeriod))"))
                     {
                         // Фильтрация массива со всеми расходами по выбранному временному отрезку
-                        let dataArr = car.allExpenses.filter {
-                            var condition = false
-                            switch self.selectedSection {
-                                case "Month": condition = calendar.component(.year, from: $0.date) == timePeriod[0] && calendar.component(.month, from: $0.date) == timePeriod[1]
-                                case "Year": condition = calendar.component(.year, from: $0.date) == timePeriod[0]
-                                case "Total": condition = true
-                                default: condition = false
-                            }
-                            return condition   
-                        }
+//                        let dataArr = car.allExpenses.filter {
+//                            var condition = false
+//                            switch self.selectedSection {
+//                                case "Month": condition = calendar.component(.year, from: $0.date) == timePeriod[0] && calendar.component(.month, from: $0.date) == timePeriod[1]
+//                                case "Year": condition = calendar.component(.year, from: $0.date) == timePeriod[0]
+//                                case "Total": condition = true
+//                                default: condition = false
+//                            }
+//                            return condition
+//                        }
+                        let dataArr = filterArrOnTimePeriod(dataArray: car.allExpenses, timePeriod: self.selectedSection, arrOfTimePeriod: timePeriod)
                         StatisticPostView(dataArr: dataArr)
                     }
                 }
@@ -86,29 +87,29 @@ struct StatisticPosts: View {
     }
 }
 
-// Фильтрация массива со всеми расходами по выбранному временному отрезку
-//func filterArrOnTimePeriod(dataArray: [EI], timePeriod: String, arrOfTimePeriod: [Int], lastTimeIndex: [Int?], firstTimeIndex: [Int?]) -> [EI] {
-//    let calendar = Calendar.current
-//    var condition = false
-//    var conditionForLast = false
-//    var conditionForFirst = false
-//    
-//    let arrOfTimePeriod = dataArray.filter {
-//        switch timePeriod {
-//            case "Month":
-//                condition = calendar.component(.year, from: $0.date) == arrOfTimePeriod[0] && calendar.component(.month, from: $0.date) == arrOfTimePeriod[1]
-//            case "Year":
-//                condition = calendar.component(.year, from: $0.date) == arrOfTimePeriod[0]
-//            case "Total": condition = true
-//            default: condition = false
-//        }
-//        return condition
-//    }
-//    
-//    let last = dataArray
-//    
-//    return arrOfTimePeriod
-//}
+// Фильтрация массива [EI] со всеми расходами по выбранному временному отрезку
+func filterArrOnTimePeriod(dataArray: [EI], timePeriod: String, arrOfTimePeriod: [Int]) -> [EI] {
+    let calendar = Calendar.current
+    var condition = false
+    
+    return dataArray.filter {
+        switch timePeriod {
+            case "Month":
+                condition = calendar.component(.year, from: $0.date) == arrOfTimePeriod[0] && calendar.component(.month, from: $0.date) == arrOfTimePeriod[1]
+            case "Year":
+                condition = calendar.component(.year, from: $0.date) == arrOfTimePeriod[0]
+            case "Total": condition = true
+            default: condition = false
+        }
+        return condition
+    }
+    
+//    let last = dataArray.filter({ $0.date < arrOfTimePeriod[0].date }).last ?? FuelExpenseItem(description: "noLast", mileage: 0, cost: 0, date: Date(), price: 0, volume: 0, type: .ai95, fullTank: false)
+//    let first = dataArray.filter({ $0.date > arrOfTimePeriod.last?.date ?? $0.date }).first ?? FuelExpenseItem(description: "noFirst", mileage: 0, cost: 0, date: Date(), price: 0, volume: 0, type: .ai95, fullTank: false)
+//
+//    arrOfTimePeriod.append(first)
+//    arrOfTimePeriod.insert(last, at: 0)
+}
 
 struct StatisticPostView: View {
     var dataArr : [EI]
