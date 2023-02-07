@@ -65,7 +65,7 @@ struct ExpensePosts: View {
         return
             List {
                 ForEach(arrOfTimePeriod, id: \.self) { timePeriod in
-                    Section(header: Text(translateDate(array: timePeriod))) {
+                    Section(header: Text(translateDateArray(array: timePeriod))) {
                         ForEach(dataArr.filter {
                             calendar.component(.year, from: $0.date) == timePeriod[0] && calendar.component(.month, from: $0.date) == timePeriod[1] && calendar.component(.day, from: $0.date) == timePeriod[2]
                         }, id: \.id) { post in
