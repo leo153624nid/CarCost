@@ -66,7 +66,7 @@ struct StatisticPosts: View {
             List {
                 ForEach(arrOfTimePeriod, id: \.self) { timePeriod in
                     Section(header:
-                                Text("\(prefix) \(translateDate(array: timePeriod))"))
+                                Text("\(prefix) \(translateDateArray(array: timePeriod))"))
                     {
                         // Фильтрация массива со всеми расходами по выбранному временному отрезку
                         let dataArr = filterArrOnTimePeriod(dataArray: car.allExpenses, timePeriod: self.selectedSection, arrOfTimePeriod: timePeriod)
@@ -83,16 +83,45 @@ struct StatisticPostView: View {
     let arrOfTimePeriod : [Int] // do you need it???
 
     var averageFuel: Double {
+        let calendar = Calendar.current
         let fuelDataArr = dataArr.filter ({ $0 is FuelExpenseItem }).map({ $0 as! FuelExpenseItem })
         // todo fuelDataArr.count checking !!!!
+        guard fuelDataArr.count >= 1 else {
+            print("no Item in timePeriod")
+            return 0
+        }
         var last = car.fuelExpenses.filter({ $0.date < fuelDataArr[0].date }).last ?? FuelExpenseItem(description: "noLast", mileage: 0, cost: 0, date: Date(), price: 0, volume: 0, type: .ai95, fullTank: false)
         var first = car.fuelExpenses.filter({ $0.date > fuelDataArr.last?.date ?? $0.date }).first ?? FuelExpenseItem(description: "noFirst", mileage: 0, cost: 0, date: Date(), price: 0, volume: 0, type: .ai95, fullTank: false)
         
-        let a1 = AverageFuelCount(firstItem: last as! FuelExpenseItem, secondItem: fuelDataArr.first as! FuelExpenseItem)
-
-        let a3 = AverageFuelCount(firstItem: fuelDataArr.last as! FuelExpenseItem, secondItem: first as! FuelExpenseItem)
-        let a2 : Double // todo
-        return a1 + a2 + a3
+        // Расход ДО
+        var avBefore: Double
+        if last.description == "noLast" {
+            avBefore = car.averageFuel
+        } else {
+            avBefore = AverageFuelCount(firstItem: last as! FuelExpenseItem, secondItem: fuelDataArr.first!)
+        }
+        // for MONTH !!! TODO for Year !!!!
+        let daysBefore = Double(calendar.component(.day, from: fuelDataArr.first!.date))
+        
+        // Расход ПОСЛЕ
+        var avAfter: Double
+        if first.description == "noFirst" {
+            avAfter = 0
+        } else {
+            avAfter = AverageFuelCount(firstItem: fuelDataArr.last!, secondItem: first as! FuelExpenseItem)
+        }
+        // for MONTH !!! TODO for Year !!!!
+        let daysAfter = Double(30 - calendar.component(.day, from: fuelDataArr.last!.date))
+        
+        if fuelDataArr.count == 1 {
+            return (avBefore * daysBefore + avAfter * daysAfter) / 30
+        }
+        var avIn : Double = 0
+        for i in 0..<fuelDataArr.count {
+            guard i + 1 != fuelDataArr.count else { break }
+            avIn += AverageFuelCount(firstItem: fuelDataArr[i], secondItem: fuelDataArr[i+1])
+        }
+        return (avBefore * daysBefore + avIn * (30 - daysBefore - daysAfter) + avAfter * daysAfter) / 30
 
     }
     var fuelCost: Double {
