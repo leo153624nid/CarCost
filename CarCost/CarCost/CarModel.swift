@@ -26,14 +26,6 @@ protocol SEI: EI {
     var serviceName: String { get set }
 }
 
-//protocol StatisticPostProtocol {
-//    var averageFuel: Double { get set }
-//    var fuelCost: Double { get set }
-//    var otherCost: Double { get set }
-//    var mileage: Int { get set }
-//    var fuelingCount: Int { get set }
-//}
-
 enum Petrol: String {
     case ai92 = "АИ-92"
     case ai95 = "АИ-95"
@@ -76,25 +68,11 @@ struct ServiceExpenseItem: SEI, Identifiable {
     var date: Date
 }
 
-//struct StatisticPost: StatisticPostProtocol {
-//    var averageFuel: Double
-//    var fuelCost: Double
-//    var otherCost: Double
-//    var mileage: Int
-//    var fuelingCount: Int
-//}
-
 class Car: ObservableObject {
     @Published var name: String
     @Published var mileage: Int
     @Published var averageFuel: Double
     @Published var averageCost: Double // TODO
-    
-//    @Published var allExpenses = [ExpenseItem]()
-//    @Published var fuelExpenses = [FuelExpenseItem]()
-//    @Published var serviceExpenses = [ServiceExpenseItem]()
-//    @Published var otherExpenses = [ExpenseItem]()
-    
     @Published var allExpenses = [EI]()
     var fuelExpenses : [FEI] {
         var array = [FEI]()
@@ -103,7 +81,6 @@ class Car: ObservableObject {
                 array.append(item as! FEI)
             }
         }
-        print(array.last?.description)
         return array
     }
     var serviceExpenses : [SEI] {
@@ -137,7 +114,7 @@ class Car: ObservableObject {
             FuelExpenseItem(description: "f1", mileage: 100, cost: 3000, date: Date(timeIntervalSinceNow: -1000000), price: 52.94, volume: 10, type: .ai95, fullTank: true),
             FuelExpenseItem(description: "f2", mileage: 200, cost: 3000, date: Date(timeIntervalSinceNow: -100000), price: 52.94, volume: 10, type: .ai95, fullTank: true),
             FuelExpenseItem(description: "f3", mileage: 300, cost: 3000, date: Date(timeIntervalSinceNow: 10), price: 52.94, volume: 10, type: .ai95, fullTank: true),
-            FuelExpenseItem(description: "f4", mileage: 400, cost: 3000, date: Date(timeIntervalSinceNow: 6000000), price: 52.94, volume: 60, type: .ai95, fullTank: true),
+            FuelExpenseItem(description: "f4", mileage: 400, cost: 3000, date: Date(timeIntervalSinceNow: 6000000), price: 52.94, volume: 10, type: .ai95, fullTank: true),
             ServiceExpenseItem(serviceName: "self", description: "washing1", mileage: 300, cost: 300, date: Date(timeIntervalSinceNow: 10)),
             ServiceExpenseItem(serviceName: "self", description: "washing2", mileage: 400, cost: 400, date: Date(timeIntervalSinceNow: 10)),
             ExpenseItem(description: "oil filter1", mileage: 500, cost: 1000, date: Date(timeIntervalSinceNow: 10)),
