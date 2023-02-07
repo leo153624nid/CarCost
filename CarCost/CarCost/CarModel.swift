@@ -145,7 +145,7 @@ class Car: ObservableObject {
     }
 }
 
-func translateDate(array: [Int]) -> String {
+func translateDateArray(array: [Int]) -> String {
     if array.count == 3 {
         let year = array[0]
         let month = array[1]
