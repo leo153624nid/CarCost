@@ -44,6 +44,7 @@
 		FA1C015A29854AC900A66780 = {
 			isa = PBXGroup;
 			children = (
+				FA105EE22986C781003A5788 /* HeaderPicker.swift */,
 				FA1C016529854AC900A66780 /* CarCost */,
 				FA1C016429854AC900A66780 /* Products */,
 			);
@@ -60,7 +61,6 @@
 		FA1C016529854AC900A66780 /* CarCost */ = {
 			isa = PBXGroup;
 			children = (
-				FA105EE22986C781003A5788 /* HeaderPicker.swift */,
 				FA1C016629854AC900A66780 /* CarCostApp.swift */,
 				FA1C016829854AC900A66780 /* ContentView.swift */,
 				FA105EDF2986A6F3003A5788 /* StatisticView.swift */,
